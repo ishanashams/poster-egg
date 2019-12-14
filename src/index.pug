@@ -15,6 +15,9 @@ html
             
         link(id="mainstyle", rel="stylesheet", href="/style.css")
         link(id="mainfont", rel='stylesheet', href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700')
+        link(rel='stylesheet', href='https://unpkg.com/leaflet@1.6.0/dist/leaflet.css')
+        script(src='https://unpkg.com/leaflet@1.6.0/dist/leaflet.js')
+        
     body
         app-root
         script.
@@ -23,3 +26,4 @@ html
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
         script(src="bundle.js")
+        
