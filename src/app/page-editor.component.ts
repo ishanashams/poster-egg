@@ -100,7 +100,7 @@ export class PageEditorComponent {
             .takeWhile(() => this.alive)
 
             // doing get again (get design data using params)
-            .switchMap((params: Params) => this.postmanService.getDesign(params['packID'], params['designID'], true, true))
+            .switchMap((params: Params) => this.postmanService.getDesign(params['packID'], params['designID'], true, true, true))
 
             // Check the first json, if it needs to extend, we'll request again, if not, done.
             .takeWhile((value) => {
@@ -124,12 +124,14 @@ export class PageEditorComponent {
                     dataDesignProcessor.getParentID().packID,
                     dataDesignProcessor.getParentID().designID,
                     true,
+                    true, 
                     true);
             })
             .subscribe(value => {
                 dataDesignProcessor.setDataDesignParent(value);
                 this.initiateArtboard(dataDesignProcessor.merge().getDataDesignMerged());
             });
+            
     }
 
     // Initiate Artboard, use the return of postmanService.getDesign() as parameter
@@ -148,7 +150,6 @@ export class PageEditorComponent {
         } else {
             this.designProperties = dataDesign[0].designProperties;
         }
-
         // For animation
         window.document.head.insertAdjacentHTML('beforeend', `<style id="fontHider"> 
         #artboard div:not(.bg) {

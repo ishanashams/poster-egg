@@ -39,7 +39,7 @@ export class PostmanService {
             .catch(this.handleError);
     }
 
-    getDesign(packID: string, designID: string, getHTML: boolean, getCSS: boolean): Observable<any> {
+    getDesign(packID: string, designID: string, getHTML: boolean, getCSS: boolean, getScript: boolean): Observable<any> {
         return Observable.forkJoin(
 
             // Get the json
@@ -60,6 +60,15 @@ export class PostmanService {
             // Get CSS if it's requested
             getCSS ?
                 this.http.get(`${config.designDataApi}/design-packs/${packID}.pack/${designID}.template.css`)
+                    .toPromise()
+                    .then(res => res.text())
+                    .catch(() => null)
+                :
+                Promise.resolve(null),
+
+            // Get Script if it's requested
+            getScript ?
+                this.http.get(`${config.designDataApi}/design-packs/${packID}.pack/${designID}.template.js`)
                     .toPromise()
                     .then(res => res.text())
                     .catch(() => null)
