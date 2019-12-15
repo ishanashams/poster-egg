@@ -1,5 +1,6 @@
 import { config } from '../config';
 import { DesignProperties } from './interfaces';
+import { ScriptService } from './script-service.class';
 
 import * as tool from './tools';
 
@@ -13,6 +14,9 @@ export class ArtboardClass {
     // stlyeRaw is the exact css taken from poster-egg-data
     private styleRaw: string;
 
+    // scriptRaw is the exact script taken from poster-egg-data
+    private scriptRaw: string;
+
     // processed style+template
     private templateEnclosed: string;
 
@@ -20,6 +24,8 @@ export class ArtboardClass {
 
     private width: number;
     private height: number;
+
+    private scriptLoader: ScriptService;
 
     readonly regex1: RegExp = /__(.*?)__/g;
     readonly regex2: RegExp = /\[\[%#-->\[(.*?)]{([^]*?)}<--#%]]/g;
@@ -44,6 +50,11 @@ export class ArtboardClass {
 
     public setStyle(styleRaw: string): this {
         this.styleRaw = styleRaw;
+        return this;
+    }
+
+    public setScript(scriptRaw: string): this {
+        this.scriptRaw = scriptRaw;
         return this;
     }
 
@@ -136,12 +147,11 @@ export class ArtboardClass {
 
 
         this.output = this.templateEnclosed.replace(this.regex2, "$2");
+
         return this;
     }
 
     public drawAll(designProperties: DesignProperties): this {
-
-        // console.log(this.templateEnclosed);
 
         Object
             .keys(designProperties)
@@ -157,7 +167,14 @@ export class ArtboardClass {
 
         // console.log("======================================================================");
         // console.log(this.templateEnclosed);
-
+        this.scriptLoader = new ScriptService();
+        this.scriptLoader
+            .load('maps')
+            .then(data => {
+                // script is loaded, use it
+                console.log("its running now");
+              });
+              
         return this;
     }
 }

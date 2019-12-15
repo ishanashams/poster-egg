@@ -52,6 +52,7 @@ export class PageEditorComponent {
 
     private designStyle: string;
     private designTemplate: string;
+    private designScript: string;
     private designFonts: any;
     private designSize: any;
 
@@ -142,7 +143,8 @@ export class PageEditorComponent {
         this.designSize = dataDesign[0].size;
         this.designTemplate = dataDesign[1];
         this.designStyle = dataDesign[2];
-
+        this.designScript = dataDesign[3] ? dataDesign[3] : "";
+        
         // Check if the user is reediting (coming back from page-done)
         if (this.storageService.getData('designProperties')) {
             this.designProperties = this.storageService.getData('designProperties');
@@ -188,6 +190,7 @@ export class PageEditorComponent {
             .setHeight(this.designSize.h)
             .setStyle(this.designStyle)
             .setTemplate(this.designTemplate)
+            .setScript(this.designScript)
             .capsulize()
             .drawAll(this.designProperties)
 

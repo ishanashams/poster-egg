@@ -54,7 +54,7 @@ import * as translate from './translate.functions';
         PageDoneComponent,
         ModalComponent,
         SafePipe,
-        TitleizePipe
+        TitleizePipe,
     ],
     bootstrap: [
         RootComponent
