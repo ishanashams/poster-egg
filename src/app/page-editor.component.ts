@@ -22,6 +22,7 @@ import { PostmanService } from './postman.service';
 import { StorageService } from './storage.service';
 
 import { ArtboardClass } from './artboard.class';
+
 import { BitmapperClass } from './bitmapper.class';
 import { DataDesignProcessorClass } from './data-design-processor.class';
 
@@ -30,6 +31,7 @@ import { ModalComponent } from './modal.component';
 import * as tool from './tools';
 
 let createTextVersion = require("textversionjs");
+declare var updateMapLocation: any;
 
 @Component({
     moduleId: module.id,
@@ -55,8 +57,10 @@ export class PageEditorComponent {
     private designScript: string;
     private designFonts: any;
     private designSize: any;
+    private designType: any;
 
     private artboard: ArtboardClass;
+   
     private artboardScaleStyle: string;
 
     private fontStyleOuterHTML: string;
@@ -141,6 +145,7 @@ export class PageEditorComponent {
         // extract data from the postmanService.getDesign() promise
         this.designFonts = dataDesign[0].fonts;
         this.designSize = dataDesign[0].size;
+        this.designType = dataDesign[0].type;
         this.designTemplate = dataDesign[1];
         this.designStyle = dataDesign[2];
         this.designScript = dataDesign[3] ? dataDesign[3] : "";
@@ -190,14 +195,17 @@ export class PageEditorComponent {
             .setHeight(this.designSize.h)
             .setStyle(this.designStyle)
             .setTemplate(this.designTemplate)
-            .setScript(this.designScript)
             .capsulize()
             .drawAll(this.designProperties)
+            
 
         // Replace URL in css and html
         this.artboard.drawSingle('designDataUrl', config.designDataApi);
 
         this.scaleArtboard();
+
+        //check if is a map
+        this.artboard.isMapPoster(this.designType);
     }
 
     // Add key to loadingthings, a list that shows something (a key) is still loading;
@@ -267,6 +275,13 @@ export class PageEditorComponent {
         this.inputTouched = true;
     }
 
+    //For Maps Update
+    onLocationEnter(arg: any) {
+        // Get designPropertyBinder from the text input and its value for designProperties
+        let value = arg.target.value;
+        new updateMapLocation(value);
+    }
+
     // For file input
     onFileChange(arg: any) {
         this.setLoading('processingFileInput');
@@ -320,6 +335,8 @@ export class PageEditorComponent {
         toBeRendered = `<style>#artboard { border: none !important; } </style>` + toBeRendered;
         
         this.artboard.setOutput(toBeRendered);
+        
+        
 
         // Save hasChanges universally, incase the user goes back from the final page
         this.storageService.setData('hasChanges', this.guard)
@@ -329,6 +346,8 @@ export class PageEditorComponent {
 
         // Save design properties to universal storage, incase the user is want to go back and edit again from the page-done page.
         this.storageService.setData('designProperties', this.designProperties);
+
+        
 
         // Go to renderer page
         this.router.navigate(['done']);

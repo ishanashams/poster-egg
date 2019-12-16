@@ -1,10 +1,10 @@
 import { config } from '../config';
 import { DesignProperties } from './interfaces';
-import { ScriptService } from './script-service.class';
-
+import { CustomMapsClass } from './custom-maps.class';
 import * as tool from './tools';
 
 let createTextVersion = require("textversionjs");
+
 
 export class ArtboardClass {
 
@@ -14,18 +14,16 @@ export class ArtboardClass {
     // stlyeRaw is the exact css taken from poster-egg-data
     private styleRaw: string;
 
-    // scriptRaw is the exact script taken from poster-egg-data
-    private scriptRaw: string;
-
     // processed style+template
     private templateEnclosed: string;
+
+    //custom map set up
+    private customMaps: CustomMapsClass;
 
     private output: string = " ";
 
     private width: number;
     private height: number;
-
-    private scriptLoader: ScriptService;
 
     readonly regex1: RegExp = /__(.*?)__/g;
     readonly regex2: RegExp = /\[\[%#-->\[(.*?)]{([^]*?)}<--#%]]/g;
@@ -50,11 +48,6 @@ export class ArtboardClass {
 
     public setStyle(styleRaw: string): this {
         this.styleRaw = styleRaw;
-        return this;
-    }
-
-    public setScript(scriptRaw: string): this {
-        this.scriptRaw = scriptRaw;
         return this;
     }
 
@@ -131,6 +124,15 @@ export class ArtboardClass {
         return this;
     }
 
+    public isMapPoster(designType?: string) {
+        
+        if (designType == "map") {
+            console.log(designType);
+            this.customMaps = new CustomMapsClass();
+            this.customMaps.loadMapScript();
+        }
+    }
+
     public drawSingle(key: string, replace: string, text?: boolean): this {
         let regex = new RegExp(`\\[\\[%#-->\\[${key}]{([^]*?)}<--#%]]`, "g");
 
@@ -165,15 +167,10 @@ export class ArtboardClass {
                 }
             });
 
+        
         // console.log("======================================================================");
         // console.log(this.templateEnclosed);
-        this.scriptLoader = new ScriptService();
-        this.scriptLoader
-            .load('maps')
-            .then(data => {
-                // script is loaded, use it
-                console.log("its running now");
-              });
+        
               
         return this;
     }

@@ -66,14 +66,7 @@ export class PostmanService {
                 :
                 Promise.resolve(null),
 
-            // Get Script if it's requested
-            getScript ?
-                this.http.get(`${config.designDataApi}/design-packs/${packID}.pack/${designID}.template.js`)
-                    .toPromise()
-                    .then(res => res.text())
-                    .catch(() => null)
-                :
-                Promise.resolve(null)
+            
         );
     }
 

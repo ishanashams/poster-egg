@@ -24,6 +24,13 @@ modal
             div.form-group(*ngFor='let designProperty of designPropertiesArray')
                 label(*ngIf="designProperty.label && designProperty.input !== 'none'") {{ designProperty.label[translate.currentLang] }}
 
+                input.form-control(
+                    *ngIf="designProperty.input === 'searchLocation'", 
+                    type='text', 
+                    [attr.value]="designProperty.value", 
+                    (keyup.enter)="onLocationEnter($event);",
+                    ) 
+
                 textarea.form-control(
                     *ngIf="designProperty.input === 'text'", 
                     type='text', 
