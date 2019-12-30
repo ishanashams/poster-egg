@@ -31,7 +31,6 @@ import { ModalComponent } from './modal.component';
 import * as tool from './tools';
 
 let createTextVersion = require("textversionjs");
-declare var updateMapLocation: any;
 
 @Component({
     moduleId: module.id,
@@ -141,7 +140,7 @@ export class PageEditorComponent {
 
     // Initiate Artboard, use the return of postmanService.getDesign() as parameter
     private initiateArtboard(dataDesign: any) {
-
+        
         // extract data from the postmanService.getDesign() promise
         this.designFonts = dataDesign[0].fonts;
         this.designSize = dataDesign[0].size;
@@ -204,9 +203,9 @@ export class PageEditorComponent {
 
         this.scaleArtboard();
 
-        //check if is a map
-        this.artboard.isMapPoster(this.designType);
+        this.artboard.initMapPoster(this.designType);
     }
+
 
     // Add key to loadingthings, a list that shows something (a key) is still loading;
     setLoading(key: string): void {
@@ -279,7 +278,7 @@ export class PageEditorComponent {
     onLocationEnter(arg: any) {
         // Get designPropertyBinder from the text input and its value for designProperties
         let value = arg.target.value;
-        new updateMapLocation(value);
+        this.artboard.updateMapPoster(value);
     }
 
     // For file input
@@ -335,7 +334,6 @@ export class PageEditorComponent {
         toBeRendered = `<style>#artboard { border: none !important; } </style>` + toBeRendered;
         
         this.artboard.setOutput(toBeRendered);
-        
         
 
         // Save hasChanges universally, incase the user goes back from the final page

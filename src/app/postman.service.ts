@@ -78,6 +78,12 @@ export class PostmanService {
         let stylesheet: string;
         let woffUrls: string[];
 
+        // const httpOptions = {
+        //     headers: new Headers({
+        //         'Access-Control-Allow-Origin':'*',
+        //     })
+        //   };
+
         return this.http.get(`https://fonts.googleapis.com/css?family=${fonts}&amp;subset=arabic`)
             .concatMap(value => { // value is the stylsheet from google font
                 stylesheet = value.text();

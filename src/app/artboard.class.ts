@@ -18,9 +18,9 @@ export class ArtboardClass {
     private templateEnclosed: string;
 
     //custom map set up
-    private customMaps: CustomMapsClass;
+    public customMaps: CustomMapsClass;
 
-    private output: string = " ";
+    public output: string = " ";
 
     private width: number;
     private height: number;
@@ -109,7 +109,7 @@ export class ArtboardClass {
             <style>
                 ${this.styleRaw}
             </style>
-            <div id="artboard" artboard>
+            <div id="artboard" artboard (load)="funFunc()">
                 ${this.templateRaw}
             </div>
         `;
@@ -124,12 +124,18 @@ export class ArtboardClass {
         return this;
     }
 
-    public isMapPoster(designType?: string) {
-        
+    public updateMapPoster(location: string) {
+        if (location) {
+            this.customMaps.updateMapLocation(location);
+        }
+    }
+
+    public initMapPoster(designType?: string) {
         if (designType == "map") {
-            console.log(designType);
             this.customMaps = new CustomMapsClass();
-            this.customMaps.loadMapScript();
+            setTimeout(() => {
+                this.customMaps.loadMapScript();
+            }, 50);
         }
     }
 
@@ -149,7 +155,7 @@ export class ArtboardClass {
 
 
         this.output = this.templateEnclosed.replace(this.regex2, "$2");
-
+        
         return this;
     }
 
@@ -168,8 +174,8 @@ export class ArtboardClass {
             });
 
         
-        // console.log("======================================================================");
-        // console.log(this.templateEnclosed);
+        //console.log("======================================================================");
+        //console.log(this.templateEnclosed);
         
               
         return this;

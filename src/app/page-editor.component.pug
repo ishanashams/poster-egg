@@ -16,7 +16,7 @@ modal
             )
             .loader.loader-info.loader-sm
             span Loading materials ...
-        #artboardContainer(artboardContainer="", (init)="alert('tom')", [innerHTML]="artboard.output | safe: 'html'")
+        #artboardContainer(artboardContainer="", [innerHTML]="artboard.output | safe: 'html'")
     .editor-sidebar
         .editor-tools
             div
@@ -24,6 +24,7 @@ modal
             div.form-group(*ngFor='let designProperty of designPropertiesArray')
                 label(*ngIf="designProperty.label && designProperty.input !== 'none'") {{ designProperty.label[translate.currentLang] }}
 
+                
                 input.form-control(
                     *ngIf="designProperty.input === 'searchLocation'", 
                     type='text', 

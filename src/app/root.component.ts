@@ -20,13 +20,13 @@ export class RootComponent {
         // Set language, change it in config.ts file
         translate.use(config.language);
 
-        window.ga('create', config.googleAnalytics, 'auto');
+        //window.ga('create', config.googleAnalytics, 'auto');
 
-        router.events
-            .filter(event => event instanceof NavigationEnd)
-            .subscribe((event:NavigationEnd) => {
-                window.ga('set', 'page', window.location.href.replace(window.location.origin, ""));
-                window.ga('send', 'pageview');
-            });
+        // router.events
+        //     .filter(event => event instanceof NavigationEnd)
+        //     .subscribe((event:NavigationEnd) => {
+        //         window.ga('set', 'page', window.location.href.replace(window.location.origin, ""));
+        //         window.ga('send', 'pageview');
+        //     });
     }
 }
